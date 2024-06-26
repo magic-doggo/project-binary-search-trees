@@ -29,6 +29,17 @@ class Tree {
         newNode.right = this.buildTree(array, mid+1, end);
         return newNode;
     }
+
+    insert(root, value) {
+        if (root === null) {
+            root = new Node(value);
+        } else if (value < root.data) {
+            root.left = this.insert(root.left, value)
+        } else if (value > root.data) {
+            root.right = this.insert(root.right, value)
+        }
+        return root;
+    }
 }
 
 let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
@@ -48,4 +59,7 @@ if (node.left !== null) {
 };
 
 console.log(balancedBST.root)
+prettyPrint(balancedBST.root)
+
+balancedBST.insert(balancedBST.root, 8) //insert 8
 prettyPrint(balancedBST.root)
