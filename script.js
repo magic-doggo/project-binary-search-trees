@@ -16,9 +16,6 @@ class Tree {
         if (start > end) {
             return null;
         }
-        // if (array.length === 0) {
-        //     return null;
-        // }
     
         let mid = parseInt((start + end) / 2);
         let newNode = new Node(array[mid]);
@@ -68,6 +65,22 @@ class Tree {
         }
         return minv;
     }
+
+    find(value) { //iterative approach
+        if (this.root === null) return null;
+        if (this.root.data === value) {
+            return this.root;
+        } else {
+            while (this.root !== null && this.root.data !== value) {
+                if (this.root.right !== null && this.root.data <= value) {
+                    this.root = this.root.right;
+                } else if (this.root.left !== null && this.root.data >= value){
+                    this.root = this.root.left;
+                } else return null;
+            }
+            return this.root;
+        }
+    }
 }
 
 
@@ -94,5 +107,17 @@ prettyPrint(balancedBST.root)
 // balancedBST.insert(balancedBST.root, 8) //insert 8
 // prettyPrint(balancedBST.root)
 
-balancedBST.deleteItem(balancedBST.root, 5)
-prettyPrint(balancedBST.root);
+// balancedBST.deleteItem(balancedBST.root, 5) //remove 5
+// prettyPrint(balancedBST.root);
+
+// deleteItem(3, 7) recursive delete walkthrough
+// return 
+// deleteItem(5, 7)
+// return
+// deleteItem(6, 7)
+// root.right (7) = deleteItem(7, 7) = null
+// return root = 6
+// deleteItem(7,7)
+// return null
+
+console.log(balancedBST.find(6))
