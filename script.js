@@ -1,5 +1,3 @@
-let newNode;
-
 class Node {
     constructor(data) {
         this.data = data;
@@ -40,7 +38,39 @@ class Tree {
         }
         return root;
     }
+
+    deleteItem(root, value) {
+        if (root === null) {
+            return root; 
+        }
+
+        if (value < root.data) {
+            root.left = this.deleteItem(root.left, value);
+        } else if (value > root.data) {
+            root.right = this.deleteItem(root.right, value);
+        } else {
+            if (root.left === null) {
+                return root.right;
+            } else if (root.right === null) {
+                return root.left;
+            }
+            root.data = this.minValue(root.right);
+            root.right = this.deleteItem(root.right, root.data)
+        }
+        return root;
+    }
+
+    minValue(node) {
+        let minv = node.data;
+        while (node.left !== null) {
+            minv = node.left.data;
+            node = node.left;
+        }
+        return minv;
+    }
 }
+
+
 
 let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
 let balancedBST = new Tree(orderedArray)
@@ -61,5 +91,8 @@ if (node.left !== null) {
 console.log(balancedBST.root)
 prettyPrint(balancedBST.root)
 
-balancedBST.insert(balancedBST.root, 8) //insert 8
-prettyPrint(balancedBST.root)
+// balancedBST.insert(balancedBST.root, 8) //insert 8
+// prettyPrint(balancedBST.root)
+
+balancedBST.deleteItem(balancedBST.root, 5)
+prettyPrint(balancedBST.root);
