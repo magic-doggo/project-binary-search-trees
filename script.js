@@ -89,6 +89,9 @@ class Tree {
         while (queueArray.length > 0) {
             let dequeuedElement = queueArray.shift();
             bfsDataArray += dequeuedElement.data;
+            if (callback !== undefined) {
+                callback(dequeuedElement);
+            }
             if (dequeuedElement.left !== null) {
                 queueArray.push(dequeuedElement.left);
             }
@@ -96,13 +99,15 @@ class Tree {
                 queueArray.push(dequeuedElement.right);
             }
         } 
-        return bfsDataArray;
+        if (callback === undefined) return bfsDataArray;
     }
 }
 
 let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
 let balancedBST = new Tree(orderedArray)
-
+function printEachData(node) {
+    console.log(node.data)
+}
 const prettyPrint = (node, prefix = "", isLeft = true) => {
 if (node === null) {
     return;
@@ -137,4 +142,4 @@ prettyPrint(balancedBST.root)
 // return null
 
 // console.log(balancedBST.find(6)) //find 6
-console.log(balancedBST.levelOrder())
+console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
