@@ -66,7 +66,7 @@ class Tree {
         return minv;
     }
 
-    find(value) { //iterative approach
+    find(value) { //iterative approach; make recursive after?
         if (this.root === null) return null;
         if (this.root.data === value) {
             return this.root;
@@ -81,9 +81,24 @@ class Tree {
             return this.root;
         }
     }
+
+    levelOrder(callback) { //breadth first iterative
+        if (this.root === null) return null;
+        let queueArray = [this.root];
+        let bfsDataArray = [];
+        while (queueArray.length > 0) {
+            let dequeuedElement = queueArray.shift();
+            bfsDataArray += dequeuedElement.data;
+            if (dequeuedElement.left !== null) {
+                queueArray.push(dequeuedElement.left);
+            }
+            if (dequeuedElement.right !== null) {
+                queueArray.push(dequeuedElement.right);
+            }
+        } 
+        return bfsDataArray;
+    }
 }
-
-
 
 let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
 let balancedBST = new Tree(orderedArray)
@@ -110,6 +125,7 @@ prettyPrint(balancedBST.root)
 // balancedBST.deleteItem(balancedBST.root, 5) //remove 5
 // prettyPrint(balancedBST.root);
 
+///
 // deleteItem(3, 7) recursive delete walkthrough
 // return 
 // deleteItem(5, 7)
@@ -120,4 +136,5 @@ prettyPrint(balancedBST.root)
 // deleteItem(7,7)
 // return null
 
-console.log(balancedBST.find(6))
+// console.log(balancedBST.find(6)) //find 6
+console.log(balancedBST.levelOrder())
