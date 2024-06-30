@@ -101,6 +101,16 @@ class Tree {
         } 
         if (callback === undefined) return bfsDataArray;
     }
+
+    inOrder(root, inOrderArray = [], callback) {
+        if (root === null) return null;
+        this.inOrder(root.left, inOrderArray);
+        console.log(root.data);
+        inOrderArray.push(root.data)
+        this.inOrder(root.right, inOrderArray);
+        return inOrderArray;
+    }
+
 }
 
 let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
@@ -123,23 +133,9 @@ if (node.left !== null) {
 
 console.log(balancedBST.root)
 prettyPrint(balancedBST.root)
-
 // balancedBST.insert(balancedBST.root, 8) //insert 8
-// prettyPrint(balancedBST.root)
-
 // balancedBST.deleteItem(balancedBST.root, 5) //remove 5
-// prettyPrint(balancedBST.root);
-
-///
-// deleteItem(3, 7) recursive delete walkthrough
-// return 
-// deleteItem(5, 7)
-// return
-// deleteItem(6, 7)
-// root.right (7) = deleteItem(7, 7) = null
-// return root = 6
-// deleteItem(7,7)
-// return null
-
 // console.log(balancedBST.find(6)) //find 6
-console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
+// console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
+console.log(balancedBST.inOrder(balancedBST.root))
+// let x = []
