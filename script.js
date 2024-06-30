@@ -128,6 +128,17 @@ class Tree {
         if (callback) callback(root);
         if (!callback) return preOrderArray;
     }
+
+    height(node) {
+        if (typeof node === "number") {
+            node = this.find(node);
+        } 
+        if (node == null) return -1;
+        let lh = this.height(node.left);
+        let rh = this.height(node.right);
+        if (lh > rh) return lh + 1;
+        else return rh + 1;
+    }
 }
 
 let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
@@ -158,4 +169,5 @@ prettyPrint(balancedBST.root)
 // console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
 // console.log(balancedBST.inOrder(balancedBST.root, array = [], printEachData))
 // console.log(balancedBST.postOrder(balancedBST.root, array = []))
-console.log(balancedBST.preOrder(balancedBST.root, array = [], printEachData));
+// console.log(balancedBST.preOrder(balancedBST.root, array = [], printEachData));
+console.log(balancedBST.height(6))
