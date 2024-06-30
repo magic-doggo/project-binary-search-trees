@@ -102,22 +102,41 @@ class Tree {
         if (callback === undefined) return bfsDataArray;
     }
 
-    inOrder(root, inOrderArray = [], callback) {
+    inOrder(root, inOrderArray = [], callback) { //depth first inorder . can I do this without defining root every time I call function?
         if (root === null) return null;
-        this.inOrder(root.left, inOrderArray);
-        console.log(root.data);
-        inOrderArray.push(root.data)
-        this.inOrder(root.right, inOrderArray);
-        return inOrderArray;
+        this.inOrder(root.left, inOrderArray, callback);
+        inOrderArray.push(root.data);
+        if (callback) callback(root);
+        this.inOrder(root.right, inOrderArray, callback);
+        if (!callback) return inOrderArray;
     }
 
+    postOrder(root, postOrderArray = [], callback) { //depth first postorder
+        if (root === null) return null;
+        postOrderArray.push(root.data);
+        if (callback) callback(root);
+        this.postOrder(root.left, postOrderArray, callback);      
+        this.postOrder(root.right, postOrderArray, callback);
+        if (!callback) return postOrderArray;
+    }
+
+    preOrder(root, preOrderArray = [], callback) { //depth first preorder
+        if (root === null) return null;
+        this.preOrder(root.left, preOrderArray, callback);
+        this.preOrder(root.right, preOrderArray, callback)
+        preOrderArray.push(root.data);
+        if (callback) callback(root);
+        if (!callback) return preOrderArray;
+    }
 }
 
 let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
 let balancedBST = new Tree(orderedArray)
+
 function printEachData(node) {
     console.log(node.data)
 }
+
 const prettyPrint = (node, prefix = "", isLeft = true) => {
 if (node === null) {
     return;
@@ -137,5 +156,6 @@ prettyPrint(balancedBST.root)
 // balancedBST.deleteItem(balancedBST.root, 5) //remove 5
 // console.log(balancedBST.find(6)) //find 6
 // console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
-console.log(balancedBST.inOrder(balancedBST.root))
-// let x = []
+// console.log(balancedBST.inOrder(balancedBST.root, array = [], printEachData))
+// console.log(balancedBST.postOrder(balancedBST.root, array = []))
+console.log(balancedBST.preOrder(balancedBST.root, array = [], printEachData));
