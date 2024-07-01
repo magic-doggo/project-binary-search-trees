@@ -72,9 +72,9 @@ class Tree {
             return this.root;
         } else {
             while (this.root !== null && this.root.data !== value) {
-                if (this.root.right !== null && this.root.data <= value) {
+                if (this.root.right !== null && this.root.data < value) {
                     this.root = this.root.right;
-                } else if (this.root.left !== null && this.root.data >= value){
+                } else if (this.root.left !== null && this.root.data > value){
                     this.root = this.root.left;
                 } else return null;
             }
@@ -139,6 +139,43 @@ class Tree {
         if (lh > rh) return lh + 1;
         else return rh + 1;
     }
+
+    // depth(root, node) {
+    //     if (typeof node === "number") {
+    //         node = this.find(node);
+    //     }
+    //     if (root == null) return null;
+    //     if (node == root) return 0;
+        
+    //     let leftDepth = this.depth(root.left, node);
+    //     console.log("asd")
+    //     let rightDepth = this.depth(root.right, node);
+    //     console.log("right")
+    //     if (leftDepth == node) {
+    //         return leftDepth + 1;
+    //     } else if (rightDepth == node) {
+    //         return rightDepth + 1;
+    //     }
+    // }
+
+    depth(node) {
+        if (this.root == null) return null;
+        let currentRoot = this.root;
+        if (typeof node === "number") {
+            node = this.find(node);
+        } 
+        let depthNr = 0;
+        while (currentRoot != null && currentRoot.data != node.data) {
+            if (currentRoot.right != null && currentRoot.data < node.data) {
+                currentRoot = currentRoot.right;
+                depthNr += 1;
+            } else if (currentRoot.left != null && currentRoot.data > node.data) {
+                currentRoot = currentRoot.right;
+                depthNr += 1;
+            }
+        }
+        return depthNr;
+    }
 }
 
 let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
@@ -170,4 +207,5 @@ prettyPrint(balancedBST.root)
 // console.log(balancedBST.inOrder(balancedBST.root, array = [], printEachData))
 // console.log(balancedBST.postOrder(balancedBST.root, array = []))
 // console.log(balancedBST.preOrder(balancedBST.root, array = [], printEachData));
-console.log(balancedBST.height(6))
+// console.log(balancedBST.height(6))
+console.log(balancedBST.depth(7))
