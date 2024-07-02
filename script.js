@@ -9,19 +9,19 @@ class Node {
 
 class Tree {
     constructor(array = []) {
-        this.root = this.buildTree(array, 0, array.length-1);
+        this.root = this.buildTree(array, 0, array.length - 1);
     }
 
     buildTree(array = [], start, end) {
         if (start > end) {
             return null;
         }
-    
+
         let mid = parseInt((start + end) / 2);
         let newNode = new Node(array[mid]);
 
-        newNode.left = this.buildTree(array, start, mid-1);
-        newNode.right = this.buildTree(array, mid+1, end);
+        newNode.left = this.buildTree(array, start, mid - 1);
+        newNode.right = this.buildTree(array, mid + 1, end);
         return newNode;
     }
 
@@ -38,7 +38,7 @@ class Tree {
 
     deleteItem(root, value) {
         if (root === null) {
-            return root; 
+            return root;
         }
 
         if (value < root.data) {
@@ -74,7 +74,7 @@ class Tree {
             while (this.root !== null && this.root.data !== value) {
                 if (this.root.right !== null && this.root.data < value) {
                     this.root = this.root.right;
-                } else if (this.root.left !== null && this.root.data > value){
+                } else if (this.root.left !== null && this.root.data > value) {
                     this.root = this.root.left;
                 } else return null;
             }
@@ -98,7 +98,7 @@ class Tree {
             if (dequeuedElement.right !== null) {
                 queueArray.push(dequeuedElement.right);
             }
-        } 
+        }
         if (callback === undefined) return bfsDataArray;
     }
 
@@ -115,7 +115,7 @@ class Tree {
         if (root === null) return null;
         postOrderArray.push(root.data);
         if (callback) callback(root);
-        this.postOrder(root.left, postOrderArray, callback);      
+        this.postOrder(root.left, postOrderArray, callback);
         this.postOrder(root.right, postOrderArray, callback);
         if (!callback) return postOrderArray;
     }
@@ -132,7 +132,7 @@ class Tree {
     height(node) {
         if (typeof node === "number") {
             node = this.find(node);
-        } 
+        }
         if (node == null) return -1;
         let lh = this.height(node.left);
         let rh = this.height(node.right);
@@ -146,7 +146,7 @@ class Tree {
     //     }
     //     if (root == null) return null;
     //     if (node == root) return 0;
-        
+
     //     let leftDepth = this.depth(root.left, node);
     //     console.log("asd")
     //     let rightDepth = this.depth(root.right, node);
@@ -163,7 +163,7 @@ class Tree {
         let currentRoot = this.root;
         if (typeof node === "number") {
             node = this.find(node);
-        } 
+        }
         let depthNr = 0;
         while (currentRoot != null && currentRoot.data != node.data) {
             if (currentRoot.right != null && currentRoot.data < node.data) {
@@ -176,6 +176,16 @@ class Tree {
         }
         return depthNr;
     }
+
+    isBalanced(root) {
+        if (root == null) return true;
+        let lh = this.height(root.left);
+        let rh = this.height(root.right);
+        if (Math.abs(lh - rh) <= 1 && this.isBalanced(root.left) == true && this.isBalanced(root.right) == true) {
+            return true
+        }
+        return false;
+    }
 }
 
 let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
@@ -186,16 +196,16 @@ function printEachData(node) {
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
-if (node === null) {
-    return;
-}
-if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-}
-console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-}
+    if (node === null) {
+        return;
+    }
+    if (node.right !== null) {
+        prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    }
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    if (node.left !== null) {
+        prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    }
 };
 
 console.log(balancedBST.root)
@@ -208,4 +218,7 @@ prettyPrint(balancedBST.root)
 // console.log(balancedBST.postOrder(balancedBST.root, array = []))
 // console.log(balancedBST.preOrder(balancedBST.root, array = [], printEachData));
 // console.log(balancedBST.height(6))
-console.log(balancedBST.depth(2))
+// console.log(balancedBST.depth(2))
+balancedBST.deleteItem(balancedBST.root, 7);
+console.log(balancedBST.isBalanced(balancedBST.root));
+prettyPrint(balancedBST.root)
