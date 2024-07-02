@@ -170,7 +170,7 @@ class Tree {
                 currentRoot = currentRoot.right;
                 depthNr += 1;
             } else if (currentRoot.left != null && currentRoot.data > node.data) {
-                currentRoot = currentRoot.right;
+                currentRoot = currentRoot.left;
                 depthNr += 1;
             }
         }
@@ -208,4 +208,4 @@ prettyPrint(balancedBST.root)
 // console.log(balancedBST.postOrder(balancedBST.root, array = []))
 // console.log(balancedBST.preOrder(balancedBST.root, array = [], printEachData));
 // console.log(balancedBST.height(6))
-console.log(balancedBST.depth(7))
+console.log(balancedBST.depth(2))
