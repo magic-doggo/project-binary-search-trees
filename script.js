@@ -140,24 +140,6 @@ class Tree {
         else return rh + 1;
     }
 
-    // depth(root, node) {
-    //     if (typeof node === "number") {
-    //         node = this.find(node);
-    //     }
-    //     if (root == null) return null;
-    //     if (node == root) return 0;
-
-    //     let leftDepth = this.depth(root.left, node);
-    //     console.log("asd")
-    //     let rightDepth = this.depth(root.right, node);
-    //     console.log("right")
-    //     if (leftDepth == node) {
-    //         return leftDepth + 1;
-    //     } else if (rightDepth == node) {
-    //         return rightDepth + 1;
-    //     }
-    // }
-
     depth(node) {
         if (this.root == null) return null;
         let currentRoot = this.root;
@@ -186,6 +168,13 @@ class Tree {
         }
         return false;
     }
+
+    rebalance() {
+        let orderedArray = [];
+        orderedArray = this.inOrder(this.root, orderedArray); 
+        this.root = this.buildTree(orderedArray, 0, orderedArray.length - 1);
+        return this.root;
+    }
 }
 
 let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
@@ -211,14 +200,13 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 console.log(balancedBST.root)
 prettyPrint(balancedBST.root)
 // balancedBST.insert(balancedBST.root, 8) //insert 8
-// balancedBST.deleteItem(balancedBST.root, 5) //remove 5
+balancedBST.deleteItem(balancedBST.root, 5) //remove 5
 // console.log(balancedBST.find(6)) //find 6
 // console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
-// console.log(balancedBST.inOrder(balancedBST.root, array = [], printEachData))
+// console.log(balancedBST.inOrder(balancedBST.root, array = []))
 // console.log(balancedBST.postOrder(balancedBST.root, array = []))
 // console.log(balancedBST.preOrder(balancedBST.root, array = [], printEachData));
 // console.log(balancedBST.height(6))
 // console.log(balancedBST.depth(2))
-balancedBST.deleteItem(balancedBST.root, 7);
-console.log(balancedBST.isBalanced(balancedBST.root));
-prettyPrint(balancedBST.root)
+// console.log(balancedBST.isBalanced(balancedBST.root));
+console.log(balancedBST.rebalance());
