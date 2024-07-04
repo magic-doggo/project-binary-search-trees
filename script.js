@@ -6,13 +6,13 @@ class Node {
     }
 }
 
-
 class Tree {
     constructor(array = []) {
         this.root = this.buildTree(array, 0, array.length - 1);
     }
 
     buildTree(array = [], start, end) {
+        array.sort(compareNumbers);
         if (start > end) {
             return null;
         }
@@ -177,7 +177,7 @@ class Tree {
     }
 }
 
-let orderedArray = [0, 1, 2, 3, 4, 5, 6, 7]
+let orderedArray = [7, 2, 6, 4, 3, 5, 1,0 ]
 let balancedBST = new Tree(orderedArray)
 
 function printEachData(node) {
@@ -200,13 +200,35 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 console.log(balancedBST.root)
 prettyPrint(balancedBST.root)
 // balancedBST.insert(balancedBST.root, 8) //insert 8
-balancedBST.deleteItem(balancedBST.root, 5) //remove 5
-// console.log(balancedBST.find(6)) //find 6
-// console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
+// balancedBST.deleteItem(balancedBST.root, 5) //remove 5
+// console.log(balancedBST.find(6)) //find 6 ???finding 6 removes my array?
+console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
 // console.log(balancedBST.inOrder(balancedBST.root, array = []))
 // console.log(balancedBST.postOrder(balancedBST.root, array = []))
 // console.log(balancedBST.preOrder(balancedBST.root, array = [], printEachData));
 // console.log(balancedBST.height(6))
 // console.log(balancedBST.depth(2))
 // console.log(balancedBST.isBalanced(balancedBST.root));
-console.log(balancedBST.rebalance());
+// console.log(balancedBST.rebalance());
+prettyPrint(balancedBST.root)
+console.log(balancedBST.root)
+
+function generateUniqueRandomNumbers(thisManyNumbers) {
+    const numbers = new Set();
+    while (numbers.size < thisManyNumbers) {
+        numbers.add(Math.floor(Math.random()* thisManyNumbers));
+    }
+    let uniqueRandomNumbersArray = [...numbers];
+    return uniqueRandomNumbersArray;
+}
+
+// let randomArray40 = generateUniqueRandomNumbers(40);
+// let newBST = new Tree(randomArray40); // 1. create new BST from rand array
+// console.log(newBST.root)
+// prettyPrint(newBST.root)
+
+// console.log(newBST.isBalanced(newBST.root)) //2. isBalanced = true
+
+function compareNumbers(a, b) {
+    return a - b;
+}
