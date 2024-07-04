@@ -27,7 +27,7 @@ class Tree {
 
     insert(root, value) {
         if (root === null) {
-            root = new Node(value);
+            return root = new Node(value);
         } else if (value < root.data) {
             root.left = this.insert(root.left, value)
         } else if (value > root.data) {
@@ -67,28 +67,29 @@ class Tree {
     }
 
     find(value) { //iterative approach; make recursive after?
-        if (this.root === null) return null;
-        if (this.root.data === value) {
-            return this.root;
+        let tempRoot = this.root;
+        if (tempRoot === null) return null;
+        if (tempRoot.data === value) {
+            return tempRoot;
         } else {
-            while (this.root !== null && this.root.data !== value) {
-                if (this.root.right !== null && this.root.data < value) {
-                    this.root = this.root.right;
-                } else if (this.root.left !== null && this.root.data > value) {
-                    this.root = this.root.left;
+            while (tempRoot !== null && tempRoot.data !== value) {
+                if (tempRoot.right !== null && tempRoot.data < value) {
+                    tempRoot = tempRoot.right;
+                } else if (tempRoot.left !== null && tempRoot.data > value) {
+                    tempRoot = tempRoot.left;
                 } else return null;
             }
-            return this.root;
+            return tempRoot;
         }
     }
 
     levelOrder(callback) { //breadth first iterative
         if (this.root === null) return null;
         let queueArray = [this.root];
-        let bfsDataArray = [];
+        let bfsDataArray = new Array;
         while (queueArray.length > 0) {
             let dequeuedElement = queueArray.shift();
-            bfsDataArray += dequeuedElement.data;
+            bfsDataArray.push(dequeuedElement.data);
             if (callback !== undefined) {
                 callback(dequeuedElement);
             }
@@ -99,7 +100,9 @@ class Tree {
                 queueArray.push(dequeuedElement.right);
             }
         }
-        if (callback === undefined) return bfsDataArray;
+        if (callback === undefined) {
+            return bfsDataArray;
+        }
     }
 
     inOrder(root, inOrderArray = [], callback) { //depth first inorder . can I do this without defining root every time I call function?
@@ -197,12 +200,13 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
-console.log(balancedBST.root)
-prettyPrint(balancedBST.root)
+//dev tests:
+// console.log(balancedBST.root)
+// prettyPrint(balancedBST.root)
 // balancedBST.insert(balancedBST.root, 8) //insert 8
 // balancedBST.deleteItem(balancedBST.root, 5) //remove 5
 // console.log(balancedBST.find(6)) //find 6 ???finding 6 removes my array?
-console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
+// console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
 // console.log(balancedBST.inOrder(balancedBST.root, array = []))
 // console.log(balancedBST.postOrder(balancedBST.root, array = []))
 // console.log(balancedBST.preOrder(balancedBST.root, array = [], printEachData));
@@ -210,8 +214,9 @@ console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
 // console.log(balancedBST.depth(2))
 // console.log(balancedBST.isBalanced(balancedBST.root));
 // console.log(balancedBST.rebalance());
-prettyPrint(balancedBST.root)
-console.log(balancedBST.root)
+// prettyPrint(balancedBST.root)
+// console.log(balancedBST.root)
+// console.log(balancedBST.isBalanced(balancedBST.root));
 
 function generateUniqueRandomNumbers(thisManyNumbers) {
     const numbers = new Set();
@@ -222,13 +227,25 @@ function generateUniqueRandomNumbers(thisManyNumbers) {
     return uniqueRandomNumbersArray;
 }
 
-// let randomArray40 = generateUniqueRandomNumbers(40);
-// let newBST = new Tree(randomArray40); // 1. create new BST from rand array
-// console.log(newBST.root)
-// prettyPrint(newBST.root)
-
-// console.log(newBST.isBalanced(newBST.root)) //2. isBalanced = true
-
 function compareNumbers(a, b) {
     return a - b;
 }
+
+//final tests:
+let randomArray40 = generateUniqueRandomNumbers(100);
+let newBST = new Tree(randomArray40); // 1. create new BST from rand array
+console.log(newBST.rebalance())
+// console.log(newBST.insert(newBST.root, 102))
+// console.log(newBST.insert(newBST.root, 103))
+// console.log(newBST.insert(newBST.root, 103)) //4. unbalance the tree
+console.log(newBST.isBalanced(newBST.root)) //5. isBalanced = false
+console.log(newBST.rebalance()) //6. rebalance the tree
+
+console.log(newBST.root)
+prettyPrint(newBST.root)
+
+console.log(newBST.isBalanced(newBST.root)) //2. 7. isBalanced = true
+console.log(newBST.levelOrder()) //3. 8. breadth first level order
+console.log(newBST.inOrder(newBST.root, array = [])) //3. 8. depth inorder
+console.log(newBST.postOrder(newBST.root, array = [])) //3. 8. postorder
+console.log(newBST.preOrder(newBST.root, array = [])); //3. 8. preorder
