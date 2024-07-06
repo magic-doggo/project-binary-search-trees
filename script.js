@@ -25,26 +25,26 @@ class Tree {
         return newNode;
     }
 
-    insert(root, value) {
+    insert(value, root = this.root) {
         if (root === null) {
             return root = new Node(value);
         } else if (value < root.data) {
-            root.left = this.insert(root.left, value)
+            root.left = this.insert(value, root.left)
         } else if (value > root.data) {
-            root.right = this.insert(root.right, value)
+            root.right = this.insert(value, root.right)
         }
         return root;
     }
 
-    deleteItem(root, value) {
+    deleteItem(value, root = this.root) {
         if (root === null) {
             return root;
         }
 
         if (value < root.data) {
-            root.left = this.deleteItem(root.left, value);
+            root.left = this.deleteItem(value, root.left);
         } else if (value > root.data) {
-            root.right = this.deleteItem(root.right, value);
+            root.right = this.deleteItem(value, root.right);
         } else {
             if (root.left === null) {
                 return root.right;
@@ -52,7 +52,7 @@ class Tree {
                 return root.left;
             }
             root.data = this.minValue(root.right);
-            root.right = this.deleteItem(root.right, root.data)
+            root.right = this.deleteItem(root.data, root.right)
         }
         return root;
     }
@@ -203,8 +203,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 //dev tests:
 // console.log(balancedBST.root)
 // prettyPrint(balancedBST.root)
-// balancedBST.insert(balancedBST.root, 8) //insert 8
-// balancedBST.deleteItem(balancedBST.root, 5) //remove 5
+// balancedBST.insert(8) //insert 8
+// balancedBST.deleteItem(5) //remove 5
 // console.log(balancedBST.find(6)) //find 6 ???finding 6 removes my array?
 // console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
 // console.log(balancedBST.inOrder(balancedBST.root, array = []))
@@ -235,9 +235,10 @@ function compareNumbers(a, b) {
 let randomArray40 = generateUniqueRandomNumbers(100);
 let newBST = new Tree(randomArray40); // 1. create new BST from rand array
 console.log(newBST.rebalance())
-// console.log(newBST.insert(newBST.root, 102))
-// console.log(newBST.insert(newBST.root, 103))
-// console.log(newBST.insert(newBST.root, 103)) //4. unbalance the tree
+console.log(newBST.insert(102))
+console.log(newBST.deleteItem(5))
+// console.log(newBST.insert(103))
+// console.log(newBST.insert(104)) //4. unbalance the tree
 console.log(newBST.isBalanced(newBST.root)) //5. isBalanced = false
 console.log(newBST.rebalance()) //6. rebalance the tree
 
