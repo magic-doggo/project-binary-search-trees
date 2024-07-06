@@ -105,28 +105,28 @@ class Tree {
         }
     }
 
-    inOrder(root, inOrderArray = [], callback) { //depth first inorder . can I do this without defining root every time I call function?
+    inOrder(callback, inOrderArray = [], root = this.root) { //depth first inorder
         if (root === null) return null;
-        this.inOrder(root.left, inOrderArray, callback);
+        this.inOrder(callback, inOrderArray, root.left);
         inOrderArray.push(root.data);
         if (callback) callback(root);
-        this.inOrder(root.right, inOrderArray, callback);
-        if (!callback) return inOrderArray;
+        this.inOrder(callback, inOrderArray, root.right);
+        if (!callback) return inOrderArray; //return array of values in numerical order. also used in rebalance()
     }
 
-    postOrder(root, postOrderArray = [], callback) { //depth first postorder
+    postOrder(callback, postOrderArray = [], root = this.root) { //depth first postorder
         if (root === null) return null;
         postOrderArray.push(root.data);
         if (callback) callback(root);
-        this.postOrder(root.left, postOrderArray, callback);
-        this.postOrder(root.right, postOrderArray, callback);
+        this.postOrder(callback, postOrderArray, root.left);
+        this.postOrder(callback, postOrderArray, root.right);
         if (!callback) return postOrderArray;
     }
 
-    preOrder(root, preOrderArray = [], callback) { //depth first preorder
+    preOrder(callback, preOrderArray = [], root = this.root) { //depth first preorder
         if (root === null) return null;
-        this.preOrder(root.left, preOrderArray, callback);
-        this.preOrder(root.right, preOrderArray, callback)
+        this.preOrder(callback, preOrderArray, root.left);
+        this.preOrder(callback, preOrderArray, root.right)
         preOrderArray.push(root.data);
         if (callback) callback(root);
         if (!callback) return preOrderArray;
@@ -162,7 +162,7 @@ class Tree {
         return depthNr;
     }
 
-    isBalanced(root) {
+    isBalanced(root = this.root) {
         if (root == null) return true;
         let lh = this.height(root.left);
         let rh = this.height(root.right);
@@ -174,7 +174,7 @@ class Tree {
 
     rebalance() {
         let orderedArray = [];
-        orderedArray = this.inOrder(this.root, orderedArray); 
+        orderedArray = this.inOrder(); 
         this.root = this.buildTree(orderedArray, 0, orderedArray.length - 1);
         return this.root;
     }
@@ -208,8 +208,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 // console.log(balancedBST.find(6)) //find 6 ???finding 6 removes my array?
 // console.log(balancedBST.levelOrder(printEachData)) //breadth first level order
 // console.log(balancedBST.inOrder(balancedBST.root, array = []))
-// console.log(balancedBST.postOrder(balancedBST.root, array = []))
-// console.log(balancedBST.preOrder(balancedBST.root, array = [], printEachData));
+// console.log(balancedBST.postOrder())
+// console.log(balancedBST.preOrder());
 // console.log(balancedBST.height(6))
 // console.log(balancedBST.depth(2))
 // console.log(balancedBST.isBalanced(balancedBST.root));
@@ -239,14 +239,14 @@ console.log(newBST.insert(102))
 console.log(newBST.deleteItem(5))
 // console.log(newBST.insert(103))
 // console.log(newBST.insert(104)) //4. unbalance the tree
-console.log(newBST.isBalanced(newBST.root)) //5. isBalanced = false
+console.log(newBST.isBalanced()) //5. isBalanced = false
 console.log(newBST.rebalance()) //6. rebalance the tree
 
 console.log(newBST.root)
 prettyPrint(newBST.root)
 
-console.log(newBST.isBalanced(newBST.root)) //2. 7. isBalanced = true
+console.log(newBST.isBalanced()) //2. 7. isBalanced = true
 console.log(newBST.levelOrder()) //3. 8. breadth first level order
-console.log(newBST.inOrder(newBST.root, array = [])) //3. 8. depth inorder
-console.log(newBST.postOrder(newBST.root, array = [])) //3. 8. postorder
-console.log(newBST.preOrder(newBST.root, array = [])); //3. 8. preorder
+console.log(newBST.inOrder(printEachData)) //3. 8. depth inorder
+console.log(newBST.postOrder()) //3. 8. postorder
+console.log(newBST.preOrder()); //3. 8. preorder
